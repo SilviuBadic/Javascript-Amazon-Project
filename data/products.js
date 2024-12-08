@@ -658,3 +658,5 @@ const products = [
     ]
   }
 ];
+
+console.log("Scriptul amazon.js este încărcat!");
