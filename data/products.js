@@ -656,6 +656,38 @@ const products = [
       "apparel",
       "mens"
     ]
+  },
+
+  {
+    id: "id2024_01",
+    image: "images/products/umbrella.jpg",
+    name: "Super Cool Umbrella",
+    rating: {
+      stars: 4.5,
+      count: 22257
+    },
+    priceCents: 34500,
+    keywords: [
+      "rainy",
+      "clouds",
+      "umbrella",
+      "water"
+    ]
+  },
+  {
+    id: "id2024_02",
+    image: "images/products/backpack.jpg",
+    name: "Light Backpack For Your Journey",
+    rating: {
+      stars: 5,
+      count: 12237
+    },
+    priceCents: 44200,
+    keywords: [
+      "back",
+      "mountain",
+      "carry"
+    ]
   }
 ];
 
