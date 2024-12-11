@@ -2,13 +2,10 @@
 // I iniliazed an empty variable in which I will put all the list and checkout values;
 
 let listCheckout = '';
-let countButtons = 0;
-
 // we loop through each product of the bage. and we apply an event listener for each button
   products.forEach((element) => {
     element.addEventListener('click',  () => {
-      let countItems = document.querySelectorAll('.js-count-items');
-      
+     
       listCheckout +=  
       `
       <div class="main">

@@ -1,8 +1,6 @@
 
 let productsHTML = '';
 
-
-
  products.forEach((product) => {
   
   productsHTML += `
@@ -62,18 +60,15 @@ let productsHTML = '';
 
 let mainDiv = document.querySelector('.js-products-grid');
 mainDiv.innerHTML = productsHTML;
-
+let countItems = document.querySelector('.js-amazon-quantity');
+  
 // Selecting the button;
-let addBtn = document.querySelectorAll('.js-add-to-cart');
-let showNumber = document.querySelector('.js-amazon-quantity');
-let count = 0;
+let addBtn = document.querySelectorAll('.js-add-to-cart');  
 /* 
 For each button we check the id and then we add the quantities and an event listener ('click');
 */
 addBtn.forEach((button) => {
   button.addEventListener('click', () => {
-    count += 1;
-    showNumber.innerHTML = count;
     const productId = button.dataset.productId;
 
     let matchingItem;
@@ -92,8 +87,13 @@ addBtn.forEach((button) => {
         quantity : 1
       });
     }
-   
-    console.log(cart)
+
+    let cartQuantity = 0;
+    cart.forEach((item) => {
+      cartQuantity += item.quantity;
+    })
+    
+    countItems.innerHTML = cartQuantity;
   })
  
 });
