@@ -27,8 +27,8 @@ let productsHTML = '';
             </div>
 
             <div class="product-quantity-container">
-              <select>
-                <option selected value="1">1</option>
+              <select class="js-quantity-selector-${product.id}">
+                <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
@@ -61,18 +61,23 @@ let productsHTML = '';
 let mainDiv = document.querySelector('.js-products-grid');
 mainDiv.innerHTML = productsHTML;
 let countItems = document.querySelector('.js-amazon-quantity');
-  
+
+
 // Selecting the button;
 let addBtn = document.querySelectorAll('.js-add-to-cart');  
 /* 
 For each button we check the id and then we add the quantities and an event listener ('click');
 */
+
+
 addBtn.forEach((button) => {
   button.addEventListener('click', () => {
     const productId = button.dataset.productId;
-
     let matchingItem;
-    
+
+    let valueInside = document.querySelector(`.js-quantity-selector-${productId}`);
+    let theValue = Number(valueInside.value);
+    console.log(`the selected value was: ${theValue}`)
     cart.forEach((item) => {
       if (productId === item.productId){
         matchingItem = item;
@@ -80,11 +85,11 @@ addBtn.forEach((button) => {
     }) ;
 
     if (matchingItem){
-      matchingItem.quantity += 1;
+      matchingItem.quantity += theValue;
     } else {
       cart.push({
         productId : productId,
-        quantity : 1
+        quantity : theValue
       });
     }
 
@@ -95,5 +100,7 @@ addBtn.forEach((button) => {
     
     countItems.innerHTML = cartQuantity;
   })
- 
 });
+
+
+
