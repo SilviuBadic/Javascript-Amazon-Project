@@ -1,7 +1,10 @@
 
 let productsHTML = '';
 
+
+
  products.forEach((product) => {
+  
   productsHTML += `
     <div class="product-container">
             <div class="product-image-container">
@@ -47,16 +50,50 @@ let productsHTML = '';
               Added
             </div>
 
-            <button class="add-to-cart-button button-primary">
+            <button class="add-to-cart-button button-primary js-add-to-cart"
+            data-product-id="${product.id}">
               Add to Cart
             </button>
           </div>
   `;
-
-  
  });
 
 
 
 let mainDiv = document.querySelector('.js-products-grid');
 mainDiv.innerHTML = productsHTML;
+
+// Selecting the button;
+let addBtn = document.querySelectorAll('.js-add-to-cart');
+let showNumber = document.querySelector('.js-amazon-quantity');
+let count = 0;
+/* 
+For each button we check the id and then we add the quantities and an event listener ('click');
+*/
+addBtn.forEach((button) => {
+  button.addEventListener('click', () => {
+    count += 1;
+    showNumber.innerHTML = count;
+    const productId = button.dataset.productId;
+
+    let matchingItem;
+    
+    cart.forEach((item) => {
+      if (productId === item.productId){
+        matchingItem = item;
+      }
+    }) ;
+
+    if (matchingItem){
+      matchingItem.quantity += 1;
+    } else {
+      cart.push({
+        productId : productId,
+        quantity : 1
+      });
+    }
+   
+    console.log(cart)
+  })
+ 
+});
