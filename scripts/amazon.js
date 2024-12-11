@@ -43,7 +43,7 @@ let productsHTML = '';
 
             <div class="product-spacer"></div>
 
-            <div class="added-to-cart">
+            <div class="added-to-cart js-added-to-cart-${product.id}">
               <img src="images/icons/checkmark.png">
               Added
             </div>
@@ -72,23 +72,34 @@ For each button we check the id and then we add the quantities and an event list
 
 addBtn.forEach((button) => {
   button.addEventListener('click', () => {
-    const productId = button.dataset.productId;
+    
+    const {productId} = button.dataset;
     let matchingItem;
 
     let valueInside = document.querySelector(`.js-quantity-selector-${productId}`);
+
     let theValue = Number(valueInside.value);
+
+    let addedText = document.querySelector(`.js-added-to-cart-${productId}`);
+    addedText.style.opacity = 1;
+    
+    setTimeout( () => {
+      addedText.style.opacity = 0;
+    }, 3000);
+
     console.log(`the selected value was: ${theValue}`)
     cart.forEach((item) => {
       if (productId === item.productId){
         matchingItem = item;
       }
+       
     }) ;
 
     if (matchingItem){
       matchingItem.quantity += theValue;
     } else {
       cart.push({
-        productId : productId,
+        productId,
         quantity : theValue
       });
     }
@@ -101,6 +112,5 @@ addBtn.forEach((button) => {
     countItems.innerHTML = cartQuantity;
   })
 });
-
-
+;
 
