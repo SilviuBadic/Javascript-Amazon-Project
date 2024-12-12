@@ -156,3 +156,13 @@
   padding: 8px;
   border-radius: 50px;
 }
+
+.one-opacity{
+  opacity: 1;
+  transition: opacity 0.5 ease;
+}
+
+.zero-opacity{
+  opacity: 0;
+  transition: opacity 0.5 ease;
+}

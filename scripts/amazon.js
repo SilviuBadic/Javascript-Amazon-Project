@@ -1,3 +1,4 @@
+import {cart} from '../data/cart.js';
 
 let productsHTML = '';
 
@@ -81,11 +82,18 @@ addBtn.forEach((button) => {
     let theValue = Number(valueInside.value);
 
     let addedText = document.querySelector(`.js-added-to-cart-${productId}`);
-    addedText.style.opacity = 1;
+    addedText.classList.add('one-opacity');
+    addedText.classList.remove('zero-opacity');
     
-    setTimeout( () => {
-      addedText.style.opacity = 0;
-    }, 3000);
+    const twoSeconds = setTimeout( () => {
+      addedText.classList.add('zero-opacity');
+    }, 2000);
+
+    clearTimeout(() => {
+      twoSeconds();
+    }, 2000)
+
+
 
     console.log(`the selected value was: ${theValue}`)
     cart.forEach((item) => {
