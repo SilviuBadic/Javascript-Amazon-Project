@@ -2,6 +2,7 @@ import {cart, addToCart} from '../data/cart.js';
 import {products} from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
+
 let productsHTML = '';
  products.forEach((product) => {
   productsHTML += `
@@ -58,25 +59,34 @@ let productsHTML = '';
 let mainDiv = document.querySelector('.js-products-grid');
 mainDiv.innerHTML = productsHTML;
 let countItems = document.querySelector('.js-amazon-quantity');
-// Selecting the button;
 let addBtn = document.querySelectorAll('.js-add-to-cart');  
-/* 
-For each button we check the id and then we add the quantities and an event listener ('click');
-*/
-function updateCartQuantity(){
+
+
+export function calculateCartQuantity(){
+  JSON.parse(localStorage.getItem('count'));
   let cartQuantity = 0;
   cart.forEach((cartItem) => {
     cartQuantity += cartItem.quantity;
   })
   countItems.innerHTML = cartQuantity;
+  localStorage.setItem('count', JSON.stringify(cartQuantity));
+}
+
+function updateCartQuantity(){
+  calculateCartQuantity();
 }
 
 addBtn.forEach((button) => {
   button.addEventListener('click', () => {
-    const {productId} = button.dataset;
+    let {productId} = button.dataset;
     addToCart(productId);
     updateCartQuantity();
   })
+  
 });
-;
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  updateCartQuantity();
+})
+
 
