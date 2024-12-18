@@ -1,4 +1,4 @@
-import { cart, removeFromCart} from '../data/cart.js';
+import { cart, removeFromCart, updateQuantity} from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency} from './utils/money.js';
 
@@ -132,64 +132,74 @@ function updateCartQuantity(){
 
 let updateBtn = document.querySelectorAll('.js-update-link');
 let newUpdatesElements;
-let theElement;
 
 // added an event listener for every update button, so we can change the value inside the quantity:
 
 updateBtn.forEach((update) => {
-  update.addEventListener('click', ()=>{
+  update.addEventListener('click', () => {
 
     // Identify the current product (container)
     const theParent = update.closest('.cart-item-container ');
     
     update.style.display = 'none';
-    // Dynamically added the input and "Save" buttons
 
-    
+    // Dynamically added the input and "Save" buttons
     newUpdatesElements =  `
     <input class="quantity-input type="number" value="1">
     <span class="save-quantity-link link-primary js-saveBtn">Save</span>
     `;
 
     theParent.classList.add('is-editing-quantity');
+    theParent.querySelector('.js-update-text').innerHTML = newUpdatesElements;
 
-    theElement = theParent.querySelector('.js-update-text').innerHTML = newUpdatesElements;
+    // find the element and add focus on it
+    const inputElement = theParent.querySelector('.quantity-input');
+    inputElement.focus();
 
-    // Added the event listener for the Save buttons
-
+    // Find the save button
     const saveBtn = theParent.querySelector('.js-saveBtn');
-    saveBtn.addEventListener('click', ()=> {
-      update.style.display = 'inline';
-      // Read the value from the input
-      let newQuantity = theParent.querySelector('.quantity-input').value;
 
-      if(newQuantity > 0){
-        let productId = update.dataset.productId;
-        let cartItem = cart.find(item => item.productId === productId);
+    // Creates a function to update the quantity
+    const updateQuantity = () => {
+      const newQuantity = inputElement.value;
+
+      if(newQuantity > 0 && newQuantity < 100){
+        const productId = update.dataset.productId;
+        const cartItem = cart.find(item => item.productId === productId);
+
+        // Updating the quantity
         cartItem.quantity = Number(newQuantity);
-
         theParent.querySelector('.js-quantity').innerHTML = newQuantity;
 
         // save the value to local storage
         localStorage.setItem('cart', JSON.stringify(cart));
+      
+        // deleting the input and display Save button;
+        theParent.querySelector('.js-update-text').innerHTML = '';
+        theParent.classList.remove('is-editing-quantity');
+
+        // display the Update button again
+        update.style.display = 'inline';
+
+        // Update the total of quantity
+        updateCartQuantity();
 
       } else {
         console.warn('Invalid quantity entered');
-        return;
       }
-      // after we found out the input and replaced it we have to delete the <input> and Save button and add the number in his initial place;
+    };
 
-      console.log('removing input and Save btn');
-
-      theParent.querySelector('.js-update-text').innerHTML = '';
-      theParent.classList.remove('is-editing-quantity');
-
-     updateCartQuantity();
-      })
-    })
+      // add event listener for Save button
+      saveBtn.addEventListener('click', updateQuantity);
+        
+      // add event listener for Enter
+      inputElement.addEventListener('keydown', (event) => {
+        if(event.key === 'Enter'){
+          updateQuantity();
+        }
+      });
+    });
   });
 
 
-
   
-
