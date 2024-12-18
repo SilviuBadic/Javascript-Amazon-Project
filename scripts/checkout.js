@@ -1,6 +1,10 @@
-import { cart, removeFromCart } from '../data/cart.js';
+import { cart, removeFromCart} from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency} from './utils/money.js';
+
+JSON.parse(localStorage.getItem('cart')) || [];
+console.log('cart after initialization', cart)
+
 let checkoutHTML = ``;
   cart.forEach((cartItem) => {
     const productId = cartItem.productId;
@@ -27,7 +31,9 @@ let checkoutHTML = ``;
               </div>
               <div class="product-quantity">
                 <span>
-                  Quantity: <span class="quantity-label">${cartItem.quantity}</span>
+                  <class="show-quantity">Quantity:
+                  <span class="quantity-label js-quantity">${cartItem.quantity}</span>
+              
                 </span>
                 <span class="update-quantity-link link-primary js-update-link" data-product-id = "${listCheckout.id}">
                   Update
@@ -36,7 +42,7 @@ let checkoutHTML = ``;
                 <span class="js-update-text">
                 </span>
 
-                <span class="delete-quantity-link link-primary js-delete-link" data-product-id = "${listCheckout.id}">
+                <span class="delete-quantity-link link-primary js-delete-link js-delete-link2" data-product-id = "${listCheckout.id}">
                   Delete
                 </span>
               </div>
@@ -92,7 +98,7 @@ let checkoutHTML = ``;
     }); 
 
 document.querySelector('.js-order-summary').innerHTML = checkoutHTML;
-const deleteBtn = document.querySelectorAll('.js-delete-link');
+let deleteBtn = document.querySelectorAll('.js-delete-link');
 
 deleteBtn.forEach( (link) => {
   link.addEventListener('click', ()=>{
@@ -112,8 +118,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
 })
 
 function updateCartQuantity(){
+
   let theCheckoutQuantity = document.querySelector('.js-checkout-counter');
+
   let cartQuantity = 0;
+
   cart.forEach((cartItem) => {
     cartQuantity += cartItem.quantity;
   })
@@ -122,26 +131,65 @@ function updateCartQuantity(){
 }
 
 let updateBtn = document.querySelectorAll('.js-update-link');
-
-let theInputValue = document.querySelector('.js-update-text');
 let newUpdatesElements;
 let theElement;
 
+// added an event listener for every update button, so we can change the value inside the quantity:
+
 updateBtn.forEach((update) => {
   update.addEventListener('click', ()=>{
-    let productId = update.dataset.productId;
-    console.log(`The product id for this one is: ${productId}`);
 
+    // Identify the current product (container)
+    const theParent = update.closest('.cart-item-container ');
+    
+    update.style.display = 'none';
+    // Dynamically added the input and "Save" buttons
+
+    
     newUpdatesElements =  `
-    <input class="quantity-input">
-    <span class="save-quantity-link link-primary">Save</span>
+    <input class="quantity-input type="number" value="1">
+    <span class="save-quantity-link link-primary js-saveBtn">Save</span>
     `;
 
-    const theParent = update.closest('.cart-item-container ');
     theParent.classList.add('is-editing-quantity');
-    theElement = theParent.querySelector('.js-update-text').innerHTML = newUpdatesElements;
-    });
 
-    console.log(theElement);
+    theElement = theParent.querySelector('.js-update-text').innerHTML = newUpdatesElements;
+
+    // Added the event listener for the Save buttons
+
+    const saveBtn = theParent.querySelector('.js-saveBtn');
+    saveBtn.addEventListener('click', ()=> {
+      update.style.display = 'inline';
+      // Read the value from the input
+      let newQuantity = theParent.querySelector('.quantity-input').value;
+
+      if(newQuantity > 0){
+        let productId = update.dataset.productId;
+        let cartItem = cart.find(item => item.productId === productId);
+        cartItem.quantity = Number(newQuantity);
+
+        theParent.querySelector('.js-quantity').innerHTML = newQuantity;
+
+        // save the value to local storage
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+      } else {
+        console.warn('Invalid quantity entered');
+        return;
+      }
+      // after we found out the input and replaced it we have to delete the <input> and Save button and add the number in his initial place;
+
+      console.log('removing input and Save btn');
+
+      theParent.querySelector('.js-update-text').innerHTML = '';
+      theParent.classList.remove('is-editing-quantity');
+
+     updateCartQuantity();
+      })
+    })
   });
+
+
+
+  
 

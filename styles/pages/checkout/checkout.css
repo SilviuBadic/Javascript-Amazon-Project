@@ -213,6 +213,9 @@
 .quantity-input{
   width: 30px;
   display: none;
+  text-align: center;
+  font-size: 14px;
+  margin-left: 5px;
 }
 
 .save-quantity-link{
@@ -228,3 +231,18 @@
   display: initial;
 }
 
+.show-quantity-of-product{
+  display: none;
+}
+
+.update-update{
+  display: none;
+}
+
+.show-quantity-of-product2{
+  display: initial;
+}
+
+.updateUpdate{
+  display: initial;
+}

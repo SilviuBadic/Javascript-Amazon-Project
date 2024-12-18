@@ -58,3 +58,16 @@ export function removeFromCart(productId) {
 
   saveToLocal();
 }
+
+
+export function updateQuantity(productId, newQuantity){
+  addToCart(productId);
+  if (matchingItem){
+    matchingItem.quantity += theValue;
+  } else {
+    cart.push({
+      productId,
+      quantity : newQuantity
+    });
+  }
+}
