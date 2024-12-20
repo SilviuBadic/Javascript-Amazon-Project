@@ -1,6 +1,17 @@
 import { cart, removeFromCart, updateQuantity} from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency} from './utils/money.js';
+import {hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+
+
+hello();
+
+const now = dayjs();
+const delivery_date = now.add(7, 'days')
+const final_date = delivery_date.format('dddd, MMMM D')
+console.log(final_date);
+
 
 JSON.parse(localStorage.getItem('cart')) || [];
 console.log('cart after initialization', cart)
@@ -15,7 +26,7 @@ let checkoutHTML = ``;
       `
         <div class="cart-item-container js-cart-item-container-${listCheckout.id}">
           <div class="delivery-date">
-            Delivery date: Tuesday, June 21
+            Delivery date: ${final_date}
           </div>
 
           <div class="cart-item-details-grid">
@@ -48,49 +59,8 @@ let checkoutHTML = ``;
               </div>
             </div>
 
-            <div class="delivery-options">
-              <div class="delivery-options-title">
-                Choose a delivery option:
-              </div>
-              <div class="delivery-option">
-                <input type="radio" checked
-                  class="delivery-option-input"
-                  name="delivery-option-${listCheckout.id}">
-                <div>
-                  <div class="delivery-option-date">
-                    Tuesday, June 21
-                  </div>
-                  <div class="delivery-option-price">
-                    FREE Shipping
-                  </div>
-                </div>
-              </div>
-              <div class="delivery-option">
-                <input type="radio"
-                  class="delivery-option-input"
-                  name="delivery-option-${listCheckout.id}">
-                <div>
-                  <div class="delivery-option-date">
-                    Wednesday, June 15
-                  </div>
-                  <div class="delivery-option-price">
-                    $4.99 - Shipping
-                  </div>
-                </div>
-              </div>
-              <div class="delivery-option">
-                <input type="radio"
-                  class="delivery-option-input"
-                  name="delivery-option-${listCheckout.id}">
-                <div>
-                  <div class="delivery-option-date">
-                    Monday, June 13
-                  </div>
-                  <div class="delivery-option-price">
-                    $9.99 - Shipping
-                  </div>
-                </div>
-              </div>
+            <div class="delivery-options js-delivery-options">
+              
             </div>
           </div>
         </div>
@@ -202,4 +172,73 @@ updateBtn.forEach((update) => {
   });
 
 
+
+cart.forEach((cartItem) => {
+  const productId = cartItem.productId;
+  let listCheckout = products.find((product) => product.id === productId);
+
+  //find the container for the current product
+  const productContainer = document.querySelector(`.js-cart-item-container-${listCheckout.id}`);
   
+  if (!productContainer){
+    console.error(`Container for product ${productId} not found`); // if the container does not exist, stop the iteration
+  }
+
+  // Find the section for delivery
+
+  const deliveryOptions = productContainer.querySelector('.js-delivery-options');
+
+  if (!deliveryOptions){
+    console.error(`Delivery options section for product ${productId} not found`);
+    return; // if the container does not exist, stop the iteration
+  }
+
+  const freeShiping = now.add(1, 'days').format('dddd, MMMM D');
+  const threeDaysShipping = now.add(3, 'days').format('dddd, MMMM D');
+  const sevenDaysShipping = now.add(7, 'days').format('dddd, MMMM D')
+  deliveryOptions.innerHTML = `
+  <div class="delivery-options-title">
+    Choose a delivery option:
+  </div>
+  <div class="delivery-option">
+    <input type="radio" checked
+      class="delivery-option-input"
+      name="delivery-option-${listCheckout.id}">
+    <div>
+      <div class="delivery-option-date">
+        ${freeShiping}
+      </div>
+      <div class="delivery-option-price">
+        FREE Shipping
+      </div>
+    </div>
+  </div>
+  <div class="delivery-option">
+    <input type="radio"
+      class="delivery-option-input"
+      name="delivery-option-${listCheckout.id}">
+    <div>
+      <div class="delivery-option-date">
+        ${threeDaysShipping}
+      </div>
+      <div class="delivery-option-price">
+        $4.99 - Shipping
+      </div>
+    </div>
+  </div>
+  <div class="delivery-option">
+    <input type="radio"
+      class="delivery-option-input"
+      name="delivery-option-${listCheckout.id}">
+    <div>
+      <div class="delivery-option-date">
+        ${sevenDaysShipping}
+      </div>
+      <div class="delivery-option-price">
+        $9.99 - Shipping
+      </div>
+    </div>
+  </div>
+  `
+
+});
