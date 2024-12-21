@@ -9,17 +9,22 @@ JSON.parse(localStorage.getItem('cart')) || [];
 let checkoutHTML = ``;
   cart.forEach((cartItem) => {
     const productId = cartItem.productId;
-      let listCheckout = products.find((product) => product.id === productId);
-      const selectedDeliveryOption = deliveryOptions.find(option => option.id === cartItem.deliveryOptionId);
-      const todaysDate = dayjs();
-      const initialDeliveryDate = selectedDeliveryOption ? todaysDate.add(selectedDeliveryOption.deliveryDays, 'days').format('dddd, MMMM D') : 'Unavailable';
+    let listCheckout = products.find((product) => product.id === productId);
+    
+    const deliveryOptionId = cartItem.deliveryOptionId;
+    const deliveryOption = deliveryOptions.find(option => option.id === deliveryOptionId);
+    const todaysDate = dayjs();
+    const deliveryDate = deliveryOption 
+      ? todaysDate.add(deliveryOption.deliveryDays, 'days').format('dddd, MMMM D')
+      : 'Invalid Date';
+    
+      console.log(deliveryDate)
 
-
-      checkoutHTML +=  
+    checkoutHTML +=  
       `
         <div class="cart-item-container js-cart-item-container-${listCheckout.id}">
           <div class="delivery-date">
-            Delivery date: <span class="js-updated-delivery-date"></span>
+            Delivery date: <span class="js-updated-delivery-date">${deliveryDate}</span>
           </div>
 
           <div class="cart-item-details-grid">
@@ -99,44 +104,37 @@ let checkoutHTML = ``;
   return html
 }
 
-document.querySelector('.js-order-summary').innerHTML = checkoutHTML;
 
-document.querySelectorAll('.delivery-option-input').forEach((input)=>{
+document.querySelectorAll('.delivery-option-input').forEach(input => {
   input.addEventListener('change', (event) => {
-    const selectedInput = event.target;
+    const deliveryId = Number(event.target.dataset.deliveryId);
+    const productId = Number(event.target.name.split('-')[1]);
 
-    //Identify the product and the selected option
-    const productId = selectedInput.name.split('-')[2];
-    const selectedDeliveryId = selectedInput.getAttribute('data-delivery-id');
+    const deliveryOption = deliveryOptions.find(option => option.id === deliveryId);
+    if (deliveryOption) {
+      const todaysDate = dayjs();
+      const newDeliveryDate = todaysDate.add(deliveryOption.deliveryDays, 'days').format('dddd, MMMM D');
 
-    //Find the product in the cart
-    let cartItem = cart.find(item => item.productId == productId);
-    if (cartItem){
-      cartItem.deliveryOptionId = selectedDeliveryId;
+      // Găsește containerul produsului curent
+      const container = document.querySelector(`.js-cart-item-container-${productId}`);
+      const deliveryDateElement = container.querySelector('.js-updated-delivery-date');
 
-      // Find the selected option
-      const selectedDeliveryOption = deliveryOptions.find(option => option.id == selectedDeliveryId);
-       // update the new date
-      
-      if (selectedDeliveryOption){
-        // new delivery date
-        const todaysDate = dayjs();
-        let deliveryDate = todaysDate.add(selectedDeliveryOption.deliveryDays, 'days').format('dddd, MMMM D');
+      // Actualizează data livrării
+      deliveryDateElement.textContent = newDeliveryDate;
 
-        const deliveryDateElement = document.querySelector(`.js-cart-item-container-${productId} .js-updated-delivery-date`);
-        if(deliveryDateElement){
-          deliveryDateElement.textContent = deliveryDate;
-        }
-     // save to local storage
+      // Actualizează cart-ul din localStorage
+      const cartItem = cart.find(item => item.productId === productId);
+      if (cartItem) {
+        cartItem.deliveryOptionId = deliveryId;
         localStorage.setItem('cart', JSON.stringify(cart));
-      } else{
-        console.error(`Delivery option with ID ${selectedDeliveryId} not found`);
       }
-    } else {
-      console.error(`Delivery option with ID ${productId} not found`);
     }
   });
 });
+
+
+
+document.querySelector('.js-order-summary').innerHTML = checkoutHTML;
 
 let deleteBtn = document.querySelectorAll('.js-delete-link');
 
