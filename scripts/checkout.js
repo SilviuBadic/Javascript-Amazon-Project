@@ -81,7 +81,6 @@ let checkoutHTML = ``;
     deliveryOptions.forEach((delivery) => {
       const todaysDate = dayjs();
       const deliveryDate = deliveryOptions ? todaysDate.add(delivery.deliveryDays, 'days').format('dddd, MMMM D'): 'Invalid Date';
-      console.log(deliveryDate)
       const priceString = delivery.priceCents === 0 
       ? 'Free Shipping'
       : `$${formatCurrency(delivery.priceCents)}`;
