@@ -1,8 +1,9 @@
-import { cart, removeFromCart, updateQuantity} from '../data/cart.js';
+import { cart, removeFromCart, updateDeliveryOption} from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency} from './utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import {deliveryOptions} from '../data/deliveryOptions.js';
+
 
 JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -12,19 +13,24 @@ let checkoutHTML = ``;
     let listCheckout = products.find((product) => product.id === productId);
     
     const deliveryOptionId = cartItem.deliveryOptionId;
-    const deliveryOption = deliveryOptions.find(option => option.id === deliveryOptionId);
-    const todaysDate = dayjs();
-    const deliveryDate = deliveryOption 
-      ? todaysDate.add(deliveryOption.deliveryDays, 'days').format('dddd, MMMM D')
-      : 'Invalid Date';
-    
-      console.log(deliveryDate)
+    let deliveryOption;
+      deliveryOptions.forEach((option) => {
+        if(option.id === deliveryOptionId) {
+          deliveryOption = option;
+
+        }
+      })
+
+      const todaysDate = dayjs();
+      const newDeliveryDate = todaysDate.add(deliveryOption.deliveryDays, 'days').format('dddd, MMMM D');
+
+
 
     checkoutHTML +=  
       `
         <div class="cart-item-container js-cart-item-container-${listCheckout.id}">
           <div class="delivery-date">
-            Delivery date: <span class="js-updated-delivery-date">${deliveryDate}</span>
+            Delivery date: <span class="js-updated-delivery-date">${newDeliveryDate}</span>
           </div>
 
           <div class="cart-item-details-grid">
@@ -69,13 +75,13 @@ let checkoutHTML = ``;
     }); 
 
 
-  function myDeliveryOptions(product, cartItem){
+  function myDeliveryOptions(listCheckout, cartItem){
     let html = '';
     
     deliveryOptions.forEach((delivery) => {
       const todaysDate = dayjs();
-      const deliveryDate = todaysDate.add(delivery.deliveryDays, 'days').format('dddd, MMMM D');
-
+      const deliveryDate = deliveryOptions ? todaysDate.add(delivery.deliveryDays, 'days').format('dddd, MMMM D'): 'Invalid Date';
+      console.log(deliveryDate)
       const priceString = delivery.priceCents === 0 
       ? 'Free Shipping'
       : `$${formatCurrency(delivery.priceCents)}`;
@@ -84,11 +90,13 @@ let checkoutHTML = ``;
 
       html += 
       `
-      <div class="delivery-option">
+      <div class="delivery-option js-delivery-option"
+      data-product-id="${listCheckout.id}"
+      data-delivery-option-id = "${delivery.id}">
         <input type="radio"
           ${isChecked ? 'checked' : ''}
           class="delivery-option-input"
-          name="delivery-option-${product.id}"
+          name="delivery-option-${listCheckout.id}"
           data-delivery-id="${delivery.id}">
         <div>
           <div class="delivery-option-date">
@@ -103,36 +111,6 @@ let checkoutHTML = ``;
   });
   return html
 }
-
-
-document.querySelectorAll('.delivery-option-input').forEach(input => {
-  input.addEventListener('change', (event) => {
-    const deliveryId = Number(event.target.dataset.deliveryId);
-    const productId = Number(event.target.name.split('-')[1]);
-
-    const deliveryOption = deliveryOptions.find(option => option.id === deliveryId);
-    if (deliveryOption) {
-      const todaysDate = dayjs();
-      const newDeliveryDate = todaysDate.add(deliveryOption.deliveryDays, 'days').format('dddd, MMMM D');
-
-      // Găsește containerul produsului curent
-      const container = document.querySelector(`.js-cart-item-container-${productId}`);
-      const deliveryDateElement = container.querySelector('.js-updated-delivery-date');
-
-      // Actualizează data livrării
-      deliveryDateElement.textContent = newDeliveryDate;
-
-      // Actualizează cart-ul din localStorage
-      const cartItem = cart.find(item => item.productId === productId);
-      if (cartItem) {
-        cartItem.deliveryOptionId = deliveryId;
-        localStorage.setItem('cart', JSON.stringify(cart));
-      }
-    }
-  });
-});
-
-
 
 document.querySelector('.js-order-summary').innerHTML = checkoutHTML;
 
@@ -234,3 +212,9 @@ updateBtn.forEach((update) => {
     });
 });
   
+document.querySelectorAll('.js-delivery-option').forEach((element) => {
+  element.addEventListener('click', () => {
+    const {productId, deliveryOptionId} = element.dataset;
+    updateDeliveryOption(productId, deliveryOptionId);
+  })
+})
