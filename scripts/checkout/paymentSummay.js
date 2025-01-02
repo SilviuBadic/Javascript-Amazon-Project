@@ -4,10 +4,23 @@ import {formatCurrency} from '../utils/money.js';
 import { getDeliveryOptions } from "../../data/deliveryOptions.js";
 
 
+let countElements = document.querySelectorAll('.js-order-numbers');
+
 export function renderPaymentSummary(){
+
   let theProductPriceCents = 0;
   let centsToEuro = 0;
   let theShippingItems = 0;
+  
+
+  JSON.parse(localStorage.getItem('count'));
+  let cartQuantity = 0;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  })
+  countElements.innerHTML = cartQuantity;
+  localStorage.setItem('count', JSON.stringify(cartQuantity));
+
 
   cart.forEach((cartItem) => {
    const product = getProduct(cartItem.productId);
@@ -15,7 +28,7 @@ export function renderPaymentSummary(){
    centsToEuro = theProductPriceCents;
 
    let shippingAndHandling = getDeliveryOptions(cartItem.deliveryOptionId);
-   theShippingItems += shippingAndHandling.priceCents * cartItem.quantity;
+   theShippingItems += shippingAndHandling.priceCents;
   });
 
   let totalBeforeTax = (Number(centsToEuro) + Number(theShippingItems)).toFixed(2);
@@ -35,7 +48,7 @@ export function renderPaymentSummary(){
   </div>
 
   <div class="payment-summary-row">
-    <div class="js-order-numbers">-</div>
+    <div class="js-order-numbers">Items (${countElements.innerHTML})</div>
     <div class="payment-summary-money">$${formatCurrency(centsToEuro)}</div>
   </div>
 
@@ -65,9 +78,8 @@ export function renderPaymentSummary(){
   `;
 
 }
+
 renderPaymentSummary();
-
-
 document.addEventListener('DOMContentLoaded', ()=>{
   renderPaymentSummary()();
 })

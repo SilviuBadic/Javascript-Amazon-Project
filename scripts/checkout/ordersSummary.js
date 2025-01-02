@@ -215,6 +215,7 @@ export function renderOrderSummery(){
       const {productId, deliveryOptionId} = element.dataset;
       updateDeliveryOption(productId, deliveryOptionId);
       renderOrderSummery();
+      renderPaymentSummary();
     })
   })
 
