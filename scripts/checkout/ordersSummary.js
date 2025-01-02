@@ -1,10 +1,9 @@
 import { cart, removeFromCart, updateDeliveryOption} from '../../data/cart.js';
-import { products } from '../../data/products.js';
+import { products, getProduct } from '../../data/products.js';
 import { formatCurrency} from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import {deliveryOptions} from '../../data/deliveryOptions.js';
-
-
+import {deliveryOptions, getDeliveryOptions} from '../../data/deliveryOptions.js';
+import { renderPaymentSummary } from './paymentSummay.js';
 
 export function renderOrderSummery(){
 
@@ -13,21 +12,16 @@ export function renderOrderSummery(){
   let checkoutHTML = ``;
     cart.forEach((cartItem) => {
       const productId = cartItem.productId;
-      let listCheckout = products.find((product) => product.id === productId);
       
+      const listCheckout = getProduct(productId);
+
       const deliveryOptionId = cartItem.deliveryOptionId;
 
-      const deliveryOption = deliveryOptions.find(option => String(option.id) === String(deliveryOptionId));
-      if (!deliveryOption) {
-        console.error(`Delivery option not found for deliveryOptionId: ${deliveryOptionId}`);
-        return; // Trecem la următorul produs
-      }
+      const deliveryOption = getDeliveryOptions(deliveryOptionId);
       
       const todaysDate = dayjs();
       const deliveryDate = deliveryOptions ? todaysDate.add(deliveryOption.deliveryDays, 'days').format('dddd, MMMM D'): 'Invalid Date';
-      console.log(deliveryDate);
-
-        
+   
       checkoutHTML +=  
         `
           <div class="cart-item-container js-cart-item-container-${listCheckout.id}">
@@ -82,9 +76,6 @@ export function renderOrderSummery(){
       
       deliveryOptions.forEach((delivery) => {
 
-        function calculatingDate(){
-          
-        }
         const todaysDate = dayjs();
         const deliveryDate = deliveryOptions ? todaysDate.add(delivery.deliveryDays, 'days').format('dddd, MMMM D'): 'Invalid Date';
         const priceString = delivery.priceCents === 0 
@@ -126,6 +117,7 @@ export function renderOrderSummery(){
       let productId = link.dataset.productId;
       removeFromCart(productId);
       updateCartQuantity();
+      renderPaymentSummary();
       const container = document.querySelector(`.js-cart-item-container-${productId}`);
       container.remove(); 
     });
@@ -136,7 +128,7 @@ export function renderOrderSummery(){
   })
 
   function updateCartQuantity(){
-
+    
     let theCheckoutQuantity = document.querySelector('.js-checkout-counter');
 
     let cartQuantity = 0;
@@ -145,6 +137,7 @@ export function renderOrderSummery(){
       cartQuantity += cartItem.quantity;
     })
     theCheckoutQuantity.innerHTML = `${cartQuantity} items`;
+    renderPaymentSummary();
   }
 
   let updateBtn = document.querySelectorAll('.js-update-link');
@@ -168,7 +161,7 @@ export function renderOrderSummery(){
 
       theParent.classList.add('is-editing-quantity');
       theParent.querySelector('.js-update-text').innerHTML = newUpdatesElements;
-
+     
       // find the element and add focus on it
       const inputElement = theParent.querySelector('.quantity-input');
       inputElement.focus();
@@ -186,7 +179,7 @@ export function renderOrderSummery(){
           // Updating the quantity
           cartItem.quantity = Number(newQuantity);
           theParent.querySelector('.js-quantity').innerHTML = newQuantity;
-
+          renderPaymentSummary();
           // save the value to local storage
           localStorage.setItem('cart', JSON.stringify(cart));
         
@@ -199,7 +192,7 @@ export function renderOrderSummery(){
 
           // Update the total of quantity
           updateCartQuantity();
-
+          
         } else {
           console.warn('Invalid quantity entered');
         }

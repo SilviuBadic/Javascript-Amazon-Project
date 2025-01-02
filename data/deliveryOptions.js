@@ -17,3 +17,15 @@ export const deliveryOptions = [
     priceCents: 999
   }
 ]
+
+export function getDeliveryOptions(deliveryOptionId){
+  let deliveryOption;
+  deliveryOption = deliveryOptions.find(option => String(option.id) === String(deliveryOptionId));
+  return deliveryOption || deliveryOptions[0];
+}
+
+export function getProduct(productId){
+    let listCheckout;
+    listCheckout = products.find((product) => product.id === productId);
+  return listCheckout;
+}
