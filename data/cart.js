@@ -1,13 +1,9 @@
 
 export let cart = JSON.parse(localStorage.getItem('cart')) ? JSON.parse(localStorage.getItem('cart')) : []
 
-
-
-
 function saveToLocal(){
 localStorage.setItem('cart', JSON.stringify(cart));
 }
-
 
 export function addToCart(productId){
   let matchingItem;
@@ -60,7 +56,6 @@ export function removeFromCart(productId) {
 
   saveToLocal();
 }
-
 
 export function updateQuantity(productId, newQuantity){
   addToCart(productId);

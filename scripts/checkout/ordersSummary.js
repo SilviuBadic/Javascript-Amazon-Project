@@ -4,6 +4,25 @@ import { formatCurrency} from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import {deliveryOptions, getDeliveryOptions} from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummay.js';
+import satSun from './exercise.js';
+
+
+satSun();
+
+function getDate(deliveryDays){
+    let todaysDate = dayjs();
+    let remainingDays = deliveryDays;
+
+    while(remainingDays > 0){
+      todaysDate = todaysDate.add(1, 'day');
+      let dayOfWeek = todaysDate.day();
+
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        remainingDays--;
+      }
+    }
+    return todaysDate.format('dddd, MMMM D');
+  }
 
 export function renderOrderSummery(){
 
@@ -17,11 +36,10 @@ export function renderOrderSummery(){
 
       const deliveryOptionId = cartItem.deliveryOptionId;
 
-      const deliveryOption = getDeliveryOptions(deliveryOptionId);
-      
-      const todaysDate = dayjs();
-      const deliveryDate = deliveryOptions ? todaysDate.add(deliveryOption.deliveryDays, 'days').format('dddd, MMMM D'): 'Invalid Date';
-   
+      let deliveryOption = getDeliveryOptions(deliveryOptionId);
+    
+      const deliveryDate = deliveryOptions ? getDate(deliveryOption.deliveryDays): 'Invalid Date';
+
       checkoutHTML +=  
         `
           <div class="cart-item-container js-cart-item-container-${listCheckout.id}">
@@ -71,13 +89,11 @@ export function renderOrderSummery(){
       }); 
 
 
-    function myDeliveryOptions(listCheckout, cartItem){
+    function myDeliveryOptions(listCheckout, cartItem, deliveryDate){
       let html = '';
-      
+
       deliveryOptions.forEach((delivery) => {
 
-        const todaysDate = dayjs();
-        const deliveryDate = deliveryOptions ? todaysDate.add(delivery.deliveryDays, 'days').format('dddd, MMMM D'): 'Invalid Date';
         const priceString = delivery.priceCents === 0 
         ? 'Free Shipping'
         : `$${formatCurrency(delivery.priceCents)}`;
@@ -88,7 +104,7 @@ export function renderOrderSummery(){
         `
         <div class="delivery-option js-delivery-option"
         data-product-id="${listCheckout.id}"
-        data-delivery-option-id = "${delivery.id}">
+        data-delivery-option-id="${delivery.id}">
           <input type="radio"
             ${isChecked ? 'checked' : ''}
             class="delivery-option-input"
@@ -105,7 +121,7 @@ export function renderOrderSummery(){
         </div>
         `;
     });
-    return html
+    return html;
   }
 
   document.querySelector('.js-order-summary').innerHTML = checkoutHTML;

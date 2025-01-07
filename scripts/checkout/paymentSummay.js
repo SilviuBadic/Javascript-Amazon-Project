@@ -35,11 +35,6 @@ export function renderPaymentSummary(){
   let estimatedTax = ((totalBeforeTax * 0.1)).toFixed(2);
   let totalOrder = (Number(estimatedTax) + Number(totalBeforeTax)).toFixed(2);
 
-
-  console.log(centsToEuro);
-  console.log(theShippingItems);
-  console.log('hello, working good');
-
   let paymentSummary = document.querySelector('.js-payment-summary');
 
   paymentSummary.innerHTML = `
@@ -81,5 +76,5 @@ export function renderPaymentSummary(){
 
 renderPaymentSummary();
 document.addEventListener('DOMContentLoaded', ()=>{
-  renderPaymentSummary()();
+  renderPaymentSummary();
 })
