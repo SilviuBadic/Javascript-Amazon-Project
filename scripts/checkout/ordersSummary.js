@@ -30,15 +30,19 @@ export function renderOrderSummery(){
 
   let checkoutHTML = ``;
     cart.forEach((cartItem) => {
-      const productId = cartItem.productId;
+      let productId = cartItem.productId;
       
-      const listCheckout = getProduct(productId);
+      let listCheckout = getProduct(productId);
 
-      const deliveryOptionId = cartItem.deliveryOptionId;
+      let deliveryOptionId = cartItem.deliveryOptionId;
 
       let deliveryOption = getDeliveryOptions(deliveryOptionId);
     
-      const deliveryDate = deliveryOptions ? getDate(deliveryOption.deliveryDays): 'Invalid Date';
+      console.log('the option is', deliveryOption)
+
+      let deliveryDate = deliveryOptions ? getDate(deliveryOption.deliveryDays): 'Invalid Date';
+
+      console.log(deliveryDate);
 
       checkoutHTML +=  
         `
@@ -89,17 +93,20 @@ export function renderOrderSummery(){
       }); 
 
 
-    function myDeliveryOptions(listCheckout, cartItem, deliveryDate){
+    function myDeliveryOptions(listCheckout, cartItem){
+      
       let html = '';
 
       deliveryOptions.forEach((delivery) => {
-
+        
         const priceString = delivery.priceCents === 0 
         ? 'Free Shipping'
         : `$${formatCurrency(delivery.priceCents)}`;
     
         const isChecked = delivery.id === cartItem.deliveryOptionId;
 
+        const deliveryDate = delivery ? getDate(delivery.deliveryDays) : 'Invalid Date';
+      
         html += 
         `
         <div class="delivery-option js-delivery-option"
