@@ -4,10 +4,7 @@ import { formatCurrency} from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import {deliveryOptions, getDeliveryOptions} from '../../data/deliveryOptions.js';
 import { renderPaymentSummary } from './paymentSummay.js';
-import satSun from './exercise.js';
 
-
-satSun();
 
 function getDate(deliveryDays){
     let todaysDate = dayjs();
@@ -37,12 +34,8 @@ export function renderOrderSummery(){
       let deliveryOptionId = cartItem.deliveryOptionId;
 
       let deliveryOption = getDeliveryOptions(deliveryOptionId);
-    
-      console.log('the option is', deliveryOption)
 
       let deliveryDate = deliveryOptions ? getDate(deliveryOption.deliveryDays): 'Invalid Date';
-
-      console.log(deliveryDate);
 
       checkoutHTML +=  
         `
