@@ -1,9 +1,18 @@
 
-export let cart = JSON.parse(localStorage.getItem('cart')) ? JSON.parse(localStorage.getItem('cart')) : []
+const cart = {
+  
+  cartItems : JSON.parse(localStorage.getItem('cart')) ? JSON.parse(localStorage.getItem('cart')) : [],
 
-function saveToLocal(){
-localStorage.setItem('cart', JSON.stringify(cart));
+  saveToLocal : function saveToLocal(){
+    localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+
+
 }
+
+
+
 
 export function addToCart(productId){
   let matchingItem;
@@ -80,7 +89,3 @@ export function updateDeliveryOption(productId, deliveryOptionId){
 
   saveToLocal();
 }
-
-const date = new Date();
-console.log(date);
-console.log(date.toLocaleTimeString());
