@@ -19,13 +19,12 @@ https://silviubadic.github.io/tic-tac-toe-javascript/
 <img width="1050" alt="b3" src="https://github.com/user-attachments/assets/feb23679-9f55-4258-a004-c3f13effe720">
 <br>
 <br>
-<img width="1050" alt="b4" src="https://github.com/user-attachments/assets/56f839fa-4fc0-40a9-8b19-63c8517ff5c3">
-<br>
-<br>
 <img width="1050" alt="b5" src="https://github.com/user-attachments/assets/19c1bcc7-1f74-4ee2-9ddd-23b69000858a">
 <br>
 <br>
+
 https://github.com/user-attachments/assets/6a38b8fd-f691-4685-83c5-2e3f7f26cba3
+
 https://github.com/user-attachments/assets/f4b7f4dc-1d4e-4369-a802-e2d88d911c7a
 
 ## Features
