@@ -15,11 +15,12 @@ https://silviubadic.github.io/tic-tac-toe-javascript/
 
 <br>
 <br>
-<img width="1050" alt="b2" src="https://github.com/SilviuBadic/tic-tac-toe-javascript/assets/130041755/d2d38a7f-5850-4cca-b063-887a596505f6">
+<img width="1050" alt="b2" src="https://github.com/user-attachments/assets/de1a634e-f9d2-4b13-b463-c64744e376bc">
 
 <br>
 <br>
-<img width="1050" alt="b4" src="https://github.com/SilviuBadic/tic-tac-toe-javascript/assets/130041755/6c282023-926f-48db-80df-0b56cca169dc">
+<img width="1050" alt="b3" src="https://github.com/user-attachments/assets/feb23679-9f55-4258-a004-c3f13effe720">
+">
 
 <br>
 <br>
