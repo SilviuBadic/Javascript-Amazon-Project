@@ -24,6 +24,18 @@ https://silviubadic.github.io/tic-tac-toe-javascript/
 
 <br>
 <br>
+<img width="1050" alt="b4" src="https://github.com/user-attachments/assets/56f839fa-4fc0-40a9-8b19-63c8517ff5c3">
+">
+">
+
+<br>
+<br>
+<img width="1050" alt="b5" src="https://github.com/user-attachments/assets/19c1bcc7-1f74-4ee2-9ddd-23b69000858a">
+">
+">
+
+<br>
+<br>
 
 
 
