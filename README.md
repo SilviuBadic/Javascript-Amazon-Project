@@ -54,7 +54,7 @@ It was a good project to learn more about DOM manipulations and the relation bet
 
 Here are some other related projects:
 
-[Portfolio](https://silviubadic.github.io/portfolio/html/index.html) 
+[Tic-Tac-Toe](https://github.com/SilviuBadic/tic-tac-toe-javascript) 
 
 [Rock-Paper-Scissors](https://github.com/SilviuBadic/rock-paper-scissors-javascript)
 
