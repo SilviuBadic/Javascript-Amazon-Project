@@ -1,10 +1,7 @@
 
 
 # Amazon Website
-Tic-Tac-Toe is a simple, two-player game played on a grid of 3-by-3 squares, usually drawn on a piece of paper, and can be played by people of any age. <br><br>
-In a 3-by-3 grid game, the player who is playing "X" always goes first. Players alternate placing Xs and Os on the board until either player has three in a row, horizontally, vertically, or diagonally or until all squares on the grid are filled. If a player is able to draw three Xs or three Os in a row, then that player wins. If all squares are filled and neither player has made a complete row of Xs or Os, then the game is a draw.
-
-I wanted to customise it a bit by choosing to add two more features the start and reset button, as well as the output which announces if there's a winner or it's a tie.
+This is a full copy responsive Amazon. 
 ## Demo
 You can check out the live version here:
 https://silviubadic.github.io/Javascript-Amazon-Project/amazon.html
@@ -72,6 +69,8 @@ Here are some other related projects:
 - JavaScript
 - Visual Studio Code
 
+## Credits
+SuperSimple.dev: https://supersimple.dev/projects/amazon/
 
 ## 🔗 Links
 [![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://github.com/SilviuBadic)
