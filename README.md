@@ -69,7 +69,7 @@ Here are some other related projects:
 
 ## Credits
 SuperSimple.dev: https://supersimple.dev <br> 
-Youtube: https://www.youtube.com/watch?v=EerdGm-ehJQ&t=19540s&ab_channel=SuperSimpleDev
+SuperSimpleDev YouTube: https://www.youtube.com/watch?v=EerdGm-ehJQ&t=19540s&ab_channel=SuperSimpleDev
 
 ## 🔗 Links
 [![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://github.com/SilviuBadic)
