@@ -7,7 +7,7 @@ In a 3-by-3 grid game, the player who is playing "X" always goes first. Players 
 I wanted to customise it a bit by choosing to add two more features the start and reset button, as well as the output which announces if there's a winner or it's a tie.
 ## Demo
 You can check out the live version here:
-https://silviubadic.github.io/tic-tac-toe-javascript/
+https://silviubadic.github.io/Javascript-Amazon-Project/amazon.html
 
 ## Screenshots
 <img width="1050" alt="b1" src="https://github.com/user-attachments/assets/eeea8b0a-b6dc-432c-8e7c-274adb2063fa">
@@ -33,15 +33,22 @@ https://github.com/user-attachments/assets/9af27d7a-2b9a-46b5-b148-7fb77b14e774
 
 
 
-## Features
+https://github.com/user-attachments/assets/4893da24-48c3-4073-9b20-b112ca5840c0
 
-1 -- The main 3-by-3 grid where the players successively place Xs and Os until the game ends.<br>
-2 -- We can't start the game without pressing the Start button. Also, in case we want to reset the game, we can refresh the page or just press the Reset button and 
-the tiles will be blank again. <br>
-3 -- In case any of the opponents win the game will display let us know the winner, else it will display "It's a tie". <br>
+
+
+## Features
+1. Display product list with details about each items and update the quantity directly in the checkout page, with real-time updates to the final order.
+2. Adjust the shopping cart by adding, removing the items in the cart.
+3. Update the delivery dates depeding on the product and the shipping taxes.
+4. Calculate the total order, depending on the sum of products, taxes and estimated shipping time.
+5. Dymanic update button: Press enter to display the number of quantity or just click Update button.
+6. Users can adjust 
+
+<br>
 
 ## Lessons Learned
-It was a good project to learn more about DOM manipulations and the relation between functions. Also a good way to improve my CSS skills too.
+It helped me better organize my code. I've worked more on interactivity than in other projects, such as handling events with button click for example, updating the DOM in the real time. I've organized my code by writing reusable code and modular functions. I've improved also my understanding of JavaScript by implementing dynamic calculations for taxes, shipping and order totals.
 ## Optimizations.
 
 - DOM manipulation, functions, iterations, loops;
