@@ -49,8 +49,8 @@ It helped me better organize my code. I've worked more on interactivity than in 
 ## Optimizations.
 
 - DOM manipulation, functions, objects, event listeners;
-- Real-time Updates.
-- Reusable code
+- Real-time Updates;
+- Reusable code;
 
 ## Related
 
@@ -68,7 +68,7 @@ Here are some other related projects:
 - Visual Studio Code
 
 ## Credits
-SuperSimple.dev: https://supersimple.dev
+SuperSimple.dev: https://supersimple.dev <br> 
 Youtube: https://www.youtube.com/watch?v=EerdGm-ehJQ&t=19540s&ab_channel=SuperSimpleDev
 
 ## 🔗 Links
